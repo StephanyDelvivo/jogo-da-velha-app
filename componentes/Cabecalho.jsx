@@ -1,16 +1,36 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native'
 
 
 const Cabecalho = (props) => {
+    const { height, width } = useWindowDimensions();
+    const retrato = height > width
     return (
-        <View style={styles.cabecalho}>
-            <Text style={styles.titulo}>Jogo da Velha</Text>
-            <Text style={styles.descricao}>Vez de Jogador: {props.vez}</Text>
+        <View style={retrato ? stylesRetrato.cabecalho : stylesPaisagem.cabecalho}>
+            <Text style={retrato ? stylesRetrato.titulo : stylesPaisagem.titulo}>Jogo da Velha</Text>
+            <Text style={retrato ? stylesRetrato.descricao : stylesPaisagem.descricao}>Vez de Jogador: {props.vez}</Text>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
+const stylesPaisagem = StyleSheet.create({
+    cabecalho: {
+        borderRightWidth: 2,
+        borderRightColor: '#000',
+        borderRightStyle: 'solid',
+        flex: 0.25
+    },
+    titulo: {
+        fontSize: 32,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginBottom: 15,
+    },
+    descricao: {
+        fontSize: 16,
+    }
+})
+
+const stylesRetrato = StyleSheet.create({
     cabecalho: {
         borderBottomWidth: 2,
         borderBottomColor: '#000',

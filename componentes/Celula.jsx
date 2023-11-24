@@ -4,7 +4,8 @@ import { TouchableOpacity, StyleSheet, useWindowDimensions, Text } from 'react-n
 
 const Celula = (props) => {
 	const { height, width } = useWindowDimensions();
-    const larguraCelula =  (width / 4)
+	const retrato = height > width
+    const larguraCelula =  retrato ? (width / 4) : (width / 8)
 	return(
 		<TouchableOpacity onPress={props.click}
             style={[styles.celula, {height: larguraCelula, width: larguraCelula} ]}>

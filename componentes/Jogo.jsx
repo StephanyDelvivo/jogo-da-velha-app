@@ -1,14 +1,17 @@
 import { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native'
 
 import Cabecalho from './Cabecalho'
 import Rodape from './Rodape'
 import Celula from './Celula'
 
 const Jogo = () => {
+    const { height, width } = useWindowDimensions();
     const [vezJogador, setVezJogador] = useState('x')
     const [estadoTabuleiro, setEstadoTabuleiro] = useState(Array(9).fill(null))
     const [historicoJogadas, setHistoricoJogadas] = useState([])
+
+    const retrato = height > width
 
     function fimJogo(tab) {
         if (tab[0] && tab[0] == tab[1] && tab[0] == tab[2]) return tab[0]
@@ -70,10 +73,10 @@ const Jogo = () => {
     }
 
     return (
-        <View style={styles.jogo}>
+        <View style={retrato ? stylesRetrato.jogo : stylesPaisagem.jogo}>
             <Cabecalho vez={vezJogador} />
-            <View style={styles.tabuleiro}>
-                <View style={styles.linhaTabuleiro}>
+            <View style={stylesPaisagem.tabuleiro}>
+                <View style={stylesPaisagem.linhaTabuleiro}>
                     <Celula valor={estadoTabuleiro[0]}
                         click={() => handleClickCelula(0)} />
                     <Celula valor={estadoTabuleiro[1]}
@@ -81,7 +84,7 @@ const Jogo = () => {
                     <Celula valor={estadoTabuleiro[2]}
                         click={() => handleClickCelula(2)} />
                 </View>
-                <View style={styles.linhaTabuleiro}>
+                <View style={stylesPaisagem.linhaTabuleiro}>
                     <Celula valor={estadoTabuleiro[3]}
                         click={() => handleClickCelula(3)} />
                     <Celula valor={estadoTabuleiro[4]}
@@ -89,7 +92,7 @@ const Jogo = () => {
                     <Celula valor={estadoTabuleiro[5]}
                         click={() => handleClickCelula(5)} />
                 </View>
-                <View style={styles.linhaTabuleiro}>
+                <View style={stylesPaisagem.linhaTabuleiro}>
                     <Celula valor={estadoTabuleiro[6]}
                         click={() => handleClickCelula(6)} />
                     <Celula valor={estadoTabuleiro[7]}
@@ -97,7 +100,7 @@ const Jogo = () => {
                     <Celula valor={estadoTabuleiro[8]}
                         click={() => handleClickCelula(8)} />
                 </View>
-                <TouchableOpacity style={styles.btnReinicar} onPress={reiniciar}>
+                <TouchableOpacity style={stylesPaisagem.btnReiniciar} onPress={reiniciar}>
                     <Text>Reiniciar</Text>
                 </TouchableOpacity>
             </View>
@@ -107,7 +110,35 @@ const Jogo = () => {
 }
 export default Jogo
 
-const styles = StyleSheet.create({
+const stylesPaisagem = StyleSheet.create({
+    jogo: {
+        margin: 2,
+        padding: 10,
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: '#ccc',
+        borderWidth: 2,
+        borderStyle: 'solid',
+        borderColor: '#000',
+        borderRadius: 10,
+    },
+    tabuleiro: {
+        flex: 0.6,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    linhaTabuleiro: {
+        flexDirection: 'row',
+    },
+    btnReiniciar: {
+        borderRadius: 10,
+        backgroundColor: '#eee',
+        padding: 10,
+        marginTop: 10,
+    }
+})
+
+const stylesRetrato = StyleSheet.create({
     jogo: {
         margin: 2,
         padding: 10,
